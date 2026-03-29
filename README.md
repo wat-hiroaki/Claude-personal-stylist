@@ -19,9 +19,10 @@
 
 - 🛒 **Shop recommendations from any brand** — just add URLs to your profile
 - 📐 **Body type & personal color analysis** — size & color suggestions tailored to your physique
+- 🎯 **Taste profiling (5-axis)** — quantifies your style preferences across minimalist-decorative, casual-dressy, classic-mode, relaxed-structured, sophisticated-playful
+- 👗 **Outfit coordination scoring** — evaluates color harmony, silhouette balance, TPO compliance, and seasonal fit of combinations
+- 🖼️ **Visual product analysis** — Claude sees actual product images to judge silhouette, texture, and color tone
 - 🔥 **X (Twitter) trend tracking** — finds viral items and must-buys
-- 🎨 **Taste matching** — Jil Sander minimalism, Italian classic, Scandi clean, etc.
-- 👤 **Style icon references** — incorporates influencer & celebrity aesthetics
 - 🔗 **Direct product links** — click and buy
 
 ### 🚀 Setup (15 min)
@@ -67,36 +68,16 @@ cp .env.example .env
 
 #### Step 2: Set up your profile
 
-Edit `profile.json` with your info. Leave fields as `""` if unsure — the AI will ask.
+Your profile is created automatically on first run from the template.
+You can edit `profile.json` with your info, or let the AI ask you during the first conversation.
 
-```json
-{
-  "nickname": "Your Nickname",
-  "gender": "male",
-  "body": {
-    "height_cm": 175,
-    "weight_kg": 70,
-    "skeleton_type": "natural",
-    "face_type": "oval",
-    "personal_color": "autumn"
-  },
-  "taste": {
-    "target_vibes": ["Jil Sander minimalism", "Italian classic"],
-    "favorite_brands": ["Jil Sander", "Lemaire", "COS"],
-    "favorite_people": ["Ryan Gosling"],
-    "avoid": ["streetwear", "loud logos"]
-  },
-  "shopping": {
-    "budget_per_item_yen": 10000,
-    "stores": [
-      { "name": "SSENSE", "urls": ["https://www.ssense.com/en-us/men"] }
-    ],
-    "preferred_sizes": { "tops": "M", "bottoms": "32", "shoes_cm": 27.0 }
-  }
-}
+```bash
+# Optional: pre-fill your profile before starting
+cp profile.template.json profile.json
+# Edit profile.json with your info
 ```
 
-> 💡 **Don't know your body type?** → Ask Claude "Analyze my body type" with a photo.
+> 💡 **Don't know your body type?** → Just start chatting. The AI will diagnose you via photos or questions.
 
 #### Step 3: Connect to Claude (project-scoped — won't affect your other work)
 
@@ -213,9 +194,10 @@ Build me a full outfit for a date. Budget $100. Use UNIQLO + ZARA.
 
 - 🛒 **好きなブランド・ショップの今買うべきアイテム**を提案（URLを追加するだけで任意のサイトに対応）
 - 📐 **骨格診断・パーソナルカラー**に基づいたサイズ＆色提案
+- 🎯 **テイスト診断（5軸）** — 好みを「ミニマル↔デコラティブ」「カジュアル↔ドレッシー」等5軸で定量化
+- 👗 **コーデ組み合わせ評価** — 配色・シルエット・TPO・季節適合を8軸で自動採点
+- 🖼️ **商品画像の視覚分析** — 実際の商品画像を見てシルエット・素材感・色味を判断
 - 🔥 **Xのトレンド**（「神パンツ」「名品ニット」等）を自動チェック
-- 🎨 **好きなテイスト反映**（ジルサンダー風、イタリアンクラシコ風 etc.）
-- 👤 **好きなインフルエンサー・芸能人**のスタイルも参考に
 - 🔗 商品ページのリンク付きで提案 → そのまま買える
 
 ### 🚀 セットアップ（15分で終わります）
@@ -263,37 +245,18 @@ cp .env.example .env
 
 #### Step 2: 自分のプロフィールを設定
 
-`profile.json` を開いて、自分の情報を書きます。
-分からない項目は空欄 `""` でOK — AIが質問してくれます。
+初回起動時に `profile.template.json` から `profile.json` が自動作成されます。
+事前に編集してもOKだし、何も書かなくてもAIが会話で聞いてくれます。
 
-```json
-{
-  "nickname": "ニックネーム",
-  "gender": "male",
-  "body": {
-    "height_cm": 170,
-    "weight_kg": 62,
-    "skeleton_type": "ウェーブ",
-    "face_type": "丸顔",
-    "personal_color": "サマー"
-  },
-  "taste": {
-    "target_vibes": ["ジルサンダー的ミニマル", "イタリアンクラシコ"],
-    "favorite_brands": ["Jil Sander", "Lemaire", "AURALEE"],
-    "favorite_people": ["落合陽一"],
-    "avoid": ["ストリート", "古着MIX"]
-  },
-  "shopping": {
-    "budget_per_item_yen": 5000,
-    "stores": [
-      { "name": "UNIQLO", "urls": ["https://www.uniqlo.com/jp/ja/men/tops/t-shirts"] }
-    ],
-    "preferred_sizes": { "tops": "M", "bottoms": "L", "shoes_cm": 26.5 }
-  }
-}
+```bash
+# 任意: 事前にプロフィールを書いておく場合
+cp profile.template.json profile.json
+# profile.json を編集
 ```
 
-> 💡 **骨格タイプが分からない？** → Claudeに「骨格診断して」って聞けばOK。写真を送ると判定してくれます。
+> 💡 **骨格タイプが分からない？** → そのまま始めてOK。写真か質問で診断してくれます。
+>
+> ⚠️ `profile.json` は `.gitignore` に含まれており、gitにpushされません。個人情報は安全です。
 
 #### Step 3: Claudeに接続（プロジェクトスコープ — 他の作業に影響しません）
 
