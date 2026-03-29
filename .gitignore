@@ -6,3 +6,4 @@ node_modules/
 dist/
 .vscode/
 Thumbs.db
+profile.json

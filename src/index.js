@@ -27,10 +27,19 @@ import { scoreOutfit } from "./models/coordination-engine.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROFILE_PATH = path.join(__dirname, "..", "profile.json");
+const PROFILE_TEMPLATE_PATH = path.join(__dirname, "..", "profile.template.json");
 
 // ─── プロフィール読み込み ───────────────────────────────
+// profile.json がなければテンプレートから自動作成
 function loadProfile() {
   try {
+    if (!fs.existsSync(PROFILE_PATH)) {
+      if (fs.existsSync(PROFILE_TEMPLATE_PATH)) {
+        fs.copyFileSync(PROFILE_TEMPLATE_PATH, PROFILE_PATH);
+      } else {
+        return null;
+      }
+    }
     const raw = fs.readFileSync(PROFILE_PATH, "utf-8");
     return JSON.parse(raw);
   } catch {
