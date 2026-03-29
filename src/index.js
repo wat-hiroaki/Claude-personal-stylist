@@ -23,6 +23,7 @@ import { fileURLToPath } from "url";
 import "dotenv/config";
 import { scoreAndRankProducts } from "./models/style-scorer.js";
 import { evaluateDiagnosis, estimateVectorFromBrands, findTopArchetypes } from "./models/taste-engine.js";
+import { scoreOutfit } from "./models/coordination-engine.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PROFILE_PATH = path.join(__dirname, "..", "profile.json");
@@ -1089,6 +1090,44 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       },
     },
     {
+      name: "score_outfit",
+      description:
+        "コーディネート全体をスコアリング。複数アイテムの「組み合わせ」を8軸（配色・トーン・ドレス/カジュアルバランス・シルエット整合・カラーエコー・素材×季節・レイヤード・TPO）で評価します。score_itemsは単体評価、score_outfitは組み合わせ評価です。",
+      inputSchema: {
+        type: "object",
+        properties: {
+          items: {
+            type: "array",
+            description: "コーデを構成するアイテム配列。各アイテムにname, text, colors, categoryを含める",
+            items: {
+              type: "object",
+              properties: {
+                name: { type: "string", description: "アイテム名" },
+                text: { type: "string", description: "商品テキスト（素材・色・シルエット情報）" },
+                colors: { type: "array", items: { type: "string" }, description: "カラー名の配列" },
+                category: {
+                  type: "string",
+                  enum: ["tops", "bottoms", "outerwear", "shoes", "accessories", "dress"],
+                  description: "アイテムカテゴリ",
+                },
+              },
+            },
+          },
+          occasion: {
+            type: "string",
+            enum: ["business", "business_casual", "casual", "date", "formal"],
+            description: "シーン・TPO（省略時はcasual想定）",
+          },
+          season: {
+            type: "string",
+            enum: ["spring", "summer", "autumn", "winter"],
+            description: "季節（省略時は現在の季節を推定）",
+          },
+        },
+        required: ["items"],
+      },
+    },
+    {
       name: "get_styling_rules",
       description: "骨格タイプ・パーソナルカラー・顔タイプ・体型補正・コーデルールの専門知識を取得。提案前に必ず参照すること。",
       inputSchema: {
@@ -1592,6 +1631,47 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           ],
         };
       }
+    }
+
+    case "score_outfit": {
+      if (!Array.isArray(args.items) || args.items.length < 2) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: JSON.stringify({
+                error: "コーディネート評価には最低2アイテムが必要です。items配列にトップス+ボトムス等を含めてください。",
+              }),
+            },
+          ],
+        };
+      }
+
+      const outfitProfile = loadProfile() || {};
+      const result = scoreOutfit({
+        items: args.items,
+        profile: outfitProfile,
+        occasion: args.occasion || "casual",
+        season: args.season || null,
+      });
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(
+              {
+                success: true,
+                ...result,
+                instruction:
+                  "コーディネートの組み合わせ評価結果です。totalScoreが高いほどバランスの良い組み合わせです。breakdownの各軸を確認し、低スコアの軸についてアドバイスしてください。recommendationsに改善提案があります。",
+              },
+              null,
+              2
+            ),
+          },
+        ],
+      };
     }
 
     case "get_styling_rules": {
