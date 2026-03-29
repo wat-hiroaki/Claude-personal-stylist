@@ -62,6 +62,19 @@ function loadAllKnowledge() {
   return knowledge;
 }
 
+// ─── セッション内キャッシュ ─────────────────────────────
+// 同一URLの再スクレイプを防止。MCPサーバーのプロセス寿命 = セッション寿命
+const _cache = new Map();
+function cacheGet(key) {
+  const entry = _cache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.ts > entry.ttl) { _cache.delete(key); return null; }
+  return entry.data;
+}
+function cacheSet(key, data, ttlMs = 30 * 60 * 1000) {
+  _cache.set(key, { data, ts: Date.now(), ttl: ttlMs });
+}
+
 // ─── 画像取得ヘルパー ─────────────────────────────────
 /**
  * URLから画像を取得してbase64エンコードする
@@ -99,6 +112,10 @@ async function fetchImageAsBase64(page, imageUrl, maxSizeKB = 500) {
 async function scrapeProducts(url, options = {}) {
   const { maxItems = 20, category = "", scrollCount = 3, inlineImageCount = 5 } = options;
 
+  const cacheKey = `products:${url}:${maxItems}`;
+  const cached = cacheGet(cacheKey);
+  if (cached) return { ...cached, fromCache: true };
+
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
     userAgent:
@@ -118,10 +135,50 @@ async function scrapeProducts(url, options = {}) {
 
     // ページ全体のテキスト＋リンク＋画像を構造化抽出
     const pageData = await page.evaluate((max) => {
-      // 商品っぽい要素を探すヒューリスティクス
-      const candidates = [];
+      // JSON-LD構造化データ（schema.org Product）があれば優先使用
+      const structuredProducts = [];
+      const jsonLdScripts = document.querySelectorAll('script[type="application/ld+json"]');
+      for (const script of jsonLdScripts) {
+        try {
+          let parsed = JSON.parse(script.textContent);
+          // 配列の場合はフラット化
+          const items = Array.isArray(parsed) ? parsed : [parsed];
+          for (const item of items) {
+            // ItemList内のproductsも探す
+            const products = item["@type"] === "ItemList"
+              ? (item.itemListElement ?? []).map((e) => e.item).filter(Boolean)
+              : item["@type"] === "Product" ? [item] : [];
+            for (const p of products) {
+              if (structuredProducts.length >= max) break;
+              const price = p.offers?.price ?? p.offers?.[0]?.price ?? "";
+              const colors = [];
+              // color/colorは配列 or 文字列
+              if (p.color) colors.push(...(Array.isArray(p.color) ? p.color.map(c => c.name ?? c) : [p.color.name ?? p.color]));
+              structuredProducts.push({
+                text: [p.name, price ? `¥${price}` : "", p.description?.slice(0, 200) ?? ""].filter(Boolean).join(" "),
+                link: p.url ?? p["@id"] ?? "",
+                image: Array.isArray(p.image) ? p.image[0] : (p.image ?? ""),
+                colors: colors.length > 0 ? colors : undefined,
+                material: p.material ?? undefined,
+                brand: p.brand?.name ?? undefined,
+              });
+            }
+          }
+        } catch {}
+      }
 
-      // 方法1: 価格を含む要素の親を商品カードとみなす
+      // JSON-LDで十分な商品が取れた場合はそれを使う
+      if (structuredProducts.length >= 3) {
+        return {
+          title: document.title,
+          url: window.location.href,
+          candidates: structuredProducts.slice(0, max),
+          source: "json-ld",
+        };
+      }
+
+      // フォールバック: ヒューリスティクスでDOM解析
+      const candidates = [];
       const pricePatterns = [
         /¥[\d,]+/,
         /￥[\d,]+/,
@@ -195,7 +252,7 @@ async function scrapeProducts(url, options = {}) {
 
     await browser.close();
 
-    return {
+    const result = {
       success: true,
       site: {
         title: pageData.title,
@@ -204,6 +261,7 @@ async function scrapeProducts(url, options = {}) {
       },
       rawProducts: pageData.candidates,
       count: pageData.candidates.length,
+      source: pageData.source ?? "heuristic",
       inlineImages,
       instruction: `
 以下は ${pageData.url} から取得した商品候補の生データです。
@@ -215,8 +273,13 @@ async function scrapeProducts(url, options = {}) {
 
 ユーザーのプロフィール（骨格タイプ、パーソナルカラー、テイスト等）と
 照らし合わせて、似合うアイテムを選んでください。
+${pageData.source === "json-ld" ? "\n商品データはJSON-LD構造化データから取得。colors/material/brandフィールドがある場合はscore_itemsに直接渡せます。" : ""}
 `,
     };
+
+    // キャッシュ保存（画像データを除いた軽量版）
+    cacheSet(cacheKey, { ...result, inlineImages: [] });
+    return result;
   } catch (err) {
     await browser.close();
     return {
@@ -229,6 +292,10 @@ async function scrapeProducts(url, options = {}) {
 
 // ─── 商品詳細ページのスクレイピング ─────────────────────
 async function scrapeProductDetail(url) {
+  const cacheKey = `detail:${url}`;
+  const cached = cacheGet(cacheKey);
+  if (cached) return { ...cached, fromCache: true };
+
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
     userAgent:
@@ -304,7 +371,7 @@ async function scrapeProductDetail(url) {
 
     await browser.close();
 
-    return {
+    const result = {
       success: true,
       ...data,
       imageCount: imageResults.length,
@@ -324,6 +391,9 @@ bodyText にはページ本文のテキストが含まれています。
 テキスト情報と画像の両方を総合して、ユーザーの体型情報と照合のうえ推奨サイズ・カラーを提案してください。
 `,
     };
+
+    cacheSet(cacheKey, { ...result, images_base64: [] });
+    return result;
   } catch (err) {
     await browser.close();
     return { success: false, error: err.message, url };
