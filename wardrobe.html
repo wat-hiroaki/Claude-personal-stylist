@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guarda-Roupa Cápsula — Victor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F0EB;
+    --card: #FFFFFF;
+    --text: #1A1A1A;
+    --muted: #6B6560;
+    --terracota: #C4622D;
+    --camel: #B07D3A;
+    --olive: #4A5240;
+    --navy: #1B2A4A;
+    --brown: #5C3D2E;
+    --border: #E8E0D8;
+    --p1: #C4622D;
+    --p2: #B07D3A;
+    --p3: #4A5240;
+    --tag-bg: #F0EBE4;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    color: #fff;
+    padding: 36px 40px 28px;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+  .header h1 span { color: #D4A96A; }
+  .header-subtitle { font-size: 14px; color: #8FA0B8; margin-top: 4px; }
+  .profile-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .chip.highlight { background: var(--terracota); border-color: var(--terracota); }
+
+  /* PALETTE */
+  .palette-bar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .palette-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    position: relative;
+  }
+  .swatch[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    top: 34px; left: 50%;
+    transform: translateX(-50%);
+    background: #1A1A1A;
+    color: #fff;
+    font-size: 10px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 10;
+  }
+
+  /* TABS */
+  .tabs-wrapper { padding: 28px 40px 0; }
+  .tabs {
+    display: flex;
+    gap: 4px;
+    background: #E8E2DA;
+    border-radius: 10px;
+    padding: 4px;
+    width: fit-content;
+  }
+  .tab-btn {
+    padding: 9px 22px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  /* MAIN CONTENT */
+  .content { padding: 28px 40px 0; }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding: 14px 16px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--muted); }
+  .priority-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .dot-1 { background: var(--p1); }
+  .dot-2 { background: var(--p2); }
+  .dot-3 { background: var(--p3); }
+
+  /* SECTION */
+  .section { margin-bottom: 36px; }
+  .section-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+
+  /* ITEM CARD */
+  .item-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+  .item-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .item-card.p1 { border-left: 3px solid var(--p1); }
+  .item-card.p2 { border-left: 3px solid var(--p2); }
+  .item-card.p3 { border-left: 3px solid var(--p3); }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .card-top-left {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    flex: 1;
+    min-width: 0;
+  }
+  .card-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--tag-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-icon svg { width: 20px; height: 20px; }
+
+  .owned-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: #E3EFE3;
+    color: #2F6B2F;
+    white-space: nowrap;
+  }
+  .priority-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .badge-1 { background: #FBE9E0; color: var(--p1); }
+  .badge-2 { background: #FBF2E0; color: var(--camel); }
+  .badge-3 { background: #E8EDE5; color: var(--olive); }
+
+  .item-name { font-size: 15px; font-weight: 600; line-height: 1.3; }
+  .item-brand { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .item-search { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 2px; }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--tag-bg);
+    color: var(--muted);
+  }
+  .tag.color-tag { display: flex; align-items: center; gap: 5px; }
+  .color-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.1);
+    flex-shrink: 0;
+  }
+  .tag.season { background: #EEF3F8; color: var(--navy); }
+
+  .item-why {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* FLAT LAY (visualização de combinação de cores sem foto real) */
+  .flatlay {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .flatlay-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  .flatlay-swatch {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .flatlay-label { font-size: 8.5px; color: var(--muted); text-align: center; max-width: 44px; line-height: 1.2; }
+
+  /* LOOKS */
+  .looks-section { margin-top: 40px; }
+  .looks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+  }
+  .look-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: box-shadow 0.2s;
+  }
+  .look-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .look-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .look-title { font-size: 14px; font-weight: 600; }
+  .look-season { font-size: 11px; color: var(--navy); background: #EEF3F8; padding: 3px 8px; border-radius: 4px; font-weight: 500; }
+  .look-items { list-style: none; }
+  .look-items li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .look-items li:last-child { border-bottom: none; }
+  .look-items li .part { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; min-width: 56px; padding-top: 1px; }
+  .look-tip {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* PRICE */
+  .item-price {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--olive);
+    margin-top: 6px;
+  }
+  .item-price.premium { color: var(--brown); }
+
+  /* BUY BUTTON */
+  .buy-btn {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: none;
+    border: 1.5px solid var(--navy);
+    padding: 4px 11px;
+    border-radius: 4px;
+    transition: all 0.15s;
+    letter-spacing: 0.3px;
+  }
+  .buy-btn:hover { background: var(--navy); color: #fff; }
+  .buy-note {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 6px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .header { padding: 24px 20px 20px; }
+    .palette-bar { padding: 12px 20px; }
+    .tabs-wrapper { padding: 20px 20px 0; }
+    .content { padding: 20px 20px 0; }
+    .items-grid { grid-template-columns: 1fr; }
+    .looks-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>Guarda-Roupa Cápsula — <span>Victor</span></h1>
+      <div class="header-subtitle">Smart Casual Minimalista · Japão · Masculino</div>
+    </div>
+  </div>
+  <div class="profile-chips">
+    <span class="chip highlight">Esqueleto: Reto (Straight)</span>
+    <span class="chip highlight">Cor: Autumn</span>
+    <span class="chip">168cm · 83kg</span>
+    <span class="chip">Home Office · Academia · Fim de Semana</span>
+    <span class="chip">M tops · 40-42 calças</span>
+  </div>
+</div>
+
+<!-- PALETTE -->
+<div class="palette-bar">
+  <span class="palette-label">Paleta Autumn</span>
+  <div class="swatches">
+    <div class="swatch" style="background:#C4622D" title="Terracota"></div>
+    <div class="swatch" style="background:#B07D3A" title="Caramelo"></div>
+    <div class="swatch" style="background:#4A5240" title="Olive Escuro"></div>
+    <div class="swatch" style="background:#5C3D2E" title="Marrom Chocolate"></div>
+    <div class="swatch" style="background:#1B2A4A" title="Navy"></div>
+    <div class="swatch" style="background:#3D3D3D" title="Cinza Escuro"></div>
+    <div class="swatch" style="background:#1A1A1A" title="Preto"></div>
+    <div class="swatch" style="background:#F0E8D8" title="Off-white / Creme"></div>
+    <div class="swatch" style="background:#8B2E2E" title="Bordô"></div>
+  </div>
+  <span style="margin-left:8px;font-size:11px;color:#999">Hover para ver o nome</span>
+</div>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('budget')">🛍 Versão Victor (até R$200/peça)</button>
+    <button class="tab-btn" onclick="switchTab('premium')">✦ Versão Premium (sem limite)</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- ============ TAB: BUDGET ============ -->
+  <div class="tab-pane active" id="tab-budget">
+
+    <div style="background:#FFF8E8;border:1px solid #E8D8A8;border-radius:10px;padding:12px 16px;margin-bottom:12px;font-size:12px;color:#6B5010;line-height:1.5">
+      <strong>⚠ Links verificados em maio/2026.</strong> Uniqlo e Zara trocam boa parte do catálogo por estação — links de produto podem esgotar ou sair de linha entre uma checagem e outra. Antes de comprar, confirme cor e tamanho disponíveis na página. Se algum link estiver morto, use o texto em <em>"Buscar"</em> de cada card para achar a peça atual.
+    </div>
+
+    <div style="background:#EEF3F8;border:1px solid #C8D8E8;border-radius:10px;padding:12px 16px;margin-bottom:20px;font-size:12px;color:#1B2A4A;line-height:1.5">
+      <strong>📅 Timing de compra por estação.</strong> Perto da virada ago/set, peças de inverno (🧥 marcadas abaixo) ficam sem estoque em todas as cores — é a transição de catálogo verão→outono/inverno da Uniqlo, não descontinuação. Compre peças de <strong>verão/meia-estação agora</strong> (disponíveis) e ative aviso de reposição (再入荷通知) nas de inverno, ou compre-as só quando a coleção AW chegar (normalmente set/out).
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="priority-dot dot-1"></div> Prioridade 1 — Comprar imediatamente</div>
+      <div class="legend-item"><div class="priority-dot dot-2"></div> Prioridade 2 — Próximas semanas</div>
+      <div class="legend-item"><div class="priority-dot dot-3"></div> Prioridade 3 — Complementar</div>
+    </div>
+
+    <!-- CASACOS -->
+    <div class="section">
+      <div class="section-title">Casacos & Outerwear</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Chester Coat de Lã</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Wool Blend Chester Coat"</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Caramelo</span>
+            <span class="tag season">Outono · Inverno</span>
+            <span class="tag" style="background:#FFF3D6;color:#8A6512">🧥 sazonal — comprar set/out</span>
+          </div>
+          <div class="item-price">~¥19.990 / ~R$180</div>
+          <div class="item-why">O corte reto do Chester é feito para o tipo Straight. Ombros definidos, lapela cria linha vertical — alonga silhueta. Navy e caramelo são cores Autumn perfeitas.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Ultra Light Down Jacket</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Ultra Light Down Jacket"</div>
+            </div>
+            <span class="priority-badge badge-1">#2 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag season">Inverno · Viagem</span>
+            <span class="tag" style="background:#FFF3D6;color:#8A6512">🧥 sazonal — confirmado sem estoque em nenhuma cor no momento; ativar 再入荷通知 (aviso de reposição)</span>
+          </div>
+          <div class="item-price">~¥9.990 / ~R$90</div>
+          <div class="item-why">Mid-layer para frio extremo. Cabe numa bolsa pequena. Slim cut — não adiciona volume desnecessário. Preto é neutro universal.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Jaqueta Harrington</div>
+              <div class="item-brand">Zara</div>
+              <div class="item-search">Buscar: "jaqueta harrington" ou "bomber leve"</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#4A5240"></span>Olive</span>
+            <span class="tag season">Primavera · Outono</span>
+          </div>
+          <div class="item-price">~R$200</div>
+          <div class="item-why">Meia-estação japonesa. Olive é cor Autumn forte. A harrington tem corte limpo que funciona bem no Straight sem adicionar volume.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BASE TERMICA -->
+    <div class="section">
+      <div class="section-title">Base Térmica (essencial no inverno japonês)</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">HEATTECH Extra Warm — Camiseta</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "HEATTECH Extra Warm Crew Neck T-Shirt"</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag season">Inverno</span>
+            <span class="tag" style="background:#FFF3D6;color:#8A6512">🧥 sazonal — código antigo saiu, use a categoria 極暖 e pegue o código do ano corrente</span>
+          </div>
+          <div class="item-price">~¥1.990 / ~R$18</div>
+          <div class="item-why">Inverno japonês sem aquecedor pode chegar a 0°C. HEATTECH é a base de qualquer look de frio — invisível por baixo do look.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">HEATTECH Extra Warm — Calça</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "HEATTECH Extra Warm Tights"</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag season">Inverno</span>
+            <span class="tag" style="background:#FFF3D6;color:#8A6512">🧥 sazonal — comprar set/out</span>
+          </div>
+          <div class="item-price">~¥1.990 / ~R$18</div>
+          <div class="item-why">Usa por baixo de qualquer calça. Indispensável para metrô e ruas frias.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CAMISAS -->
+    <div class="section">
+      <div class="section-title">Camisas (Social & Casual)</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Camisa Oxford Botão (OCBD)</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Oxford Cloth Button Down Shirt"</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#F0E8D8"></span>Off-white</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~¥3.990 / ~R$36</div>
+          <div class="item-why">A camisa mais versátil que existe. Oxford tem textura — não aperta nem cai como seda. Straight type precisa de estrutura no tecido. Funciona aberta como camada ou fechada em situação mais formal.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Camisa Linho Manga Curta</div>
+              <div class="item-brand">Uniqlo / Zara</div>
+              <div class="item-search">Buscar: "Linen Blend Short Sleeve Shirt"</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#4A5240"></span>Olive</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Caramelo</span>
+            <span class="tag season">Verão</span>
+          </div>
+          <div class="item-price">~¥3.990–R$150</div>
+          <div class="item-why">Verão japonês é quente e úmido. Linho respira e tem textura — Autumn se beneficia da textura natural. Fica ótimo aberta sobre camiseta também.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Camisa Flanela (quadriculada fina)</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Flannel Checked Long Sleeve Shirt"</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Marrom/Vermelho</span>
+            <span class="tag season">Outono · Inverno</span>
+          </div>
+          <div class="item-price">~¥3.990 / ~R$36</div>
+          <div class="item-why">Flanela xadrez pequeno (não grande) funciona bem no Straight. Cores de outono (bordô × bege, marrom × olive) combinam com Autumn. Usa aberta sobre moletom.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TOPS -->
+    <div class="section">
+      <div class="section-title">Camisetas & Tops</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Camiseta Supima Cotton — Off-white</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Supima Cotton Crew Neck T-Shirt"</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#F0E8D8"></span>Off-white / Natural</span>
+            <span class="tag season">Primavera · Verão</span>
+          </div>
+          <div class="item-price">~¥3.990 / ~R$36</div>
+          <div class="item-why">Supima é algodão premium americano — tecido grosso, não clingy, não transparece. Off-white > branco puro para Autumn (branco frio apaga o rosto). Base do look mais simples.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Camiseta Supima Cotton — Preta</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Supima Cotton Crew Neck T-Shirt"</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~¥3.990 / ~R$36</div>
+          <div class="item-why">Preto slimiza visualmente o torso — importante para o volume abdominal. Neutro que combina com tudo. Qualidade Supima não desbota como camiseta comum.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Polo Piqué</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Dry Pique Polo Shirt"</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~¥3.990 / ~R$36</div>
+          <div class="item-why">Polo resolve o problema da camiseta justa — tem estrutura no colarinho que distrai do peito. Straight type + polo = look Leclerc. Navy é cor Autumn funcional e elegante. É a mesma vibe da polo da coleção Federer (que saiu de linha) — corte DRY técnico, linha permanente da Uniqlo, sempre no estoque.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Camiseta — Terracota</div>
+              <div class="item-brand">Zara</div>
+              <div class="item-search">Buscar: "camiseta algodão" cor terracota/ferrugem</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#C4622D"></span>Terracota</span>
+            <span class="tag season">Primavera · Verão · Outono</span>
+          </div>
+          <div class="item-price">~R$100–150</div>
+          <div class="item-why">Sua cor Autumn mais forte. Terracota/ferrugem ilumina imediatamente o tom de pele. Combina com preto, jeans escuro, marrom. Look instantaneamente mais interessante.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Moletom Crew Neck</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Sweat Crew Neck Sweatshirt"</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#3D3D3D"></span>Cinza Escuro Quente</span>
+            <span class="tag season">Outono · Inverno</span>
+          </div>
+          <div class="item-price">~¥4.990 / ~R$45</div>
+          <div class="item-why">Home office confortável mas intencional. Crew neck (não capuz) é mais limpo para videoconferência. Cinza quente (não frio) funciona com Autumn.</div>
+        </div>
+
+        <div class="item-card p3">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Camiseta Linho</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Linen Blend T-Shirt"</div>
+            </div>
+            <span class="priority-badge badge-3">#3 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Bege / Natural</span>
+            <span class="tag season">Verão</span>
+          </div>
+          <div class="item-price">~¥2.990 / ~R$27</div>
+          <div class="item-why">Verão japonês pede tecido que respira. Textura natural do linho combina com perfil Autumn. Cor natural/bege terra é excelente para o tipo.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MID-LAYER -->
+    <div class="section">
+      <div class="section-title">Mid-Layer (entre camiseta e casaco)</div>
+      <div class="items-grid">
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Cardigan Merino V-Neck</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Merino Blend V-Neck Cardigan"</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Caramelo</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag season">Outono · Inverno</span>
+            <span class="tag" style="background:#FFF3D6;color:#8A6512">🧥 sazonal — comprar set/out</span>
+          </div>
+          <div class="item-price">~¥7.990 / ~R$72</div>
+          <div class="item-why">V-neck cria linha vertical no peito — bom para Straight. Merino é quente e elegante. Caramelo sobre camiseta preta é look Autumn clássico.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Fleece Full-Zip Jacket</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Fleece Full-Zip Jacket"</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#3D3D3D"></span>Cinza Escuro</span>
+            <span class="tag season">Inverno (mid-layer)</span>
+            <span class="tag" style="background:#FFF3D6;color:#8A6512">🧥 sazonal — comprar set/out</span>
+          </div>
+          <div class="item-price">~¥5.990 / ~R$54</div>
+          <div class="item-why">Camada intermediária para inverno: HEATTECH + camiseta + fleece + Chester coat. Slim cut não adiciona volume. Funciona sozinho dentro de casa também.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CALÇAS -->
+    <div class="section">
+      <div class="section-title">Calças</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Jeans Straight/Taper — Índigo Escuro</div>
+              <div class="item-brand">Levi's</div>
+              <div class="item-search">Buscar: Levi's "502 Taper" ou "511 Slim" (lavagem escura)</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Índigo Escuro</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~R$200 / ¥12.990</div>
+          <div class="item-why">Lavagem escura alonga a perna — essencial para 168cm. Corte 502 (taper) é o ideal para Straight: não skinny, não wide. Combina com todas as camisetas e sapatos do look.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Chino Slim — Caramelo</div>
+              <div class="item-brand">Uniqlo / Banana Republic</div>
+              <div class="item-search">Buscar: "Slim Fit Chino Pants" cor khaki/bege quente</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Caramelo / Khaki</span>
+            <span class="tag season">Primavera · Outono</span>
+          </div>
+          <div class="item-price">~¥5.990–R$200</div>
+          <div class="item-why">Caramelo é cor Autumn — combina com navy, olive, terracota, marrom. Chino slim tem estrutura (não cola). Base dos looks mais apresentáveis.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Calça Slim — Preta</div>
+              <div class="item-brand">Zara</div>
+              <div class="item-search">Buscar: "calça slim alfaiataria" ou "slim trousers"</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~R$150–200</div>
+          <div class="item-why">Para looks mais sérios. Preto cria linha vertical. Corte slim (não skinny) — verifica que não aperta na coxa. Base dos looks noturnos ou mais formais.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Calça Jogger / Smart Sweat</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Sweat Tapered Pants" ou "Smart Ankle Pants"</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#3D3D3D"></span>Cinza</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag season">Home Office · Fim de Semana · Academia</span>
+          </div>
+          <div class="item-price">~¥4.990 / ~R$45</div>
+          <div class="item-why">Para home office confortável e também serve pra academia/casual esportivo (corte afunilado, não largo). Uniqlo tem versões tappered que parecem calça — não parecem roupa de treino. Cinza escuro ou navy são mais elegantes que preto aqui. Sobe pra Prioridade 1 porque cobre duas funções.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CALÇADOS -->
+    <div class="section">
+      <div class="section-title">Calçados (sua maior lacuna)</div>
+      <div class="items-grid">
+
+        <div class="item-card" style="border-left: 3px solid #2F6B2F;">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Tênis de Couro Dudalina Texturizado</div>
+              <div class="item-brand">Dudalina (Dafiti)</div>
+              <div class="item-search">Já comprado — não precisa buscar</div>
+            </div>
+            <span class="owned-badge">✓ Já tem</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto texturizado</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-why">Sneaker de couro preto — ponte entre tênis casual e sapato social. Ótimo com calça preta, jeans índigo escuro, ou chino escuro. Resolve parte do gap de calçado sem gastar mais.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Tênis Couro Limpo — Branco</div>
+              <div class="item-brand">Adidas / Vans / ABC Mart JP</div>
+              <div class="item-search">Adidas Stan Smith · Vans Authentic · New Balance 574</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#F0E8D8"></span>Branco</span>
+            <span class="tag season">Primavera · Verão · Outono</span>
+          </div>
+          <div class="item-price">~¥9.000–14.000 / R$100–180</div>
+          <div class="item-why">Base casual de tudo. Couro (não lona) é mais fácil de limpar e eleva o look. Stan Smith e NB 574 são os mais versáteis — combinam com jeans, chino, calça preta.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Loafer / Mocassim — Marrom Chocolate</div>
+              <div class="item-brand">Odakyu / Marui JP / Shoestock BR</div>
+              <div class="item-search">Buscar: "leather loafer" marrom nas lojas de shoppings japoneses</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Marrom Chocolate</span>
+            <span class="tag season">Todas estações (exceto neve)</span>
+          </div>
+          <div class="item-price">~¥8.000–15.000</div>
+          <div class="item-why">Este é o sapato que transforma seus looks. Polo + chino + loafer = Look Leclerc imediato. Marrom chocolate é tom Autumn ideal. Eleva qualquer combinação sem esforço.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Chelsea Boot — Preta</div>
+              <div class="item-brand">Zara JP / ABC Mart</div>
+              <div class="item-search">Buscar: "chelsea boots" preta couro ou sintético de qualidade</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag season">Outono · Inverno</span>
+          </div>
+          <div class="item-price">~R$180–200</div>
+          <div class="item-why">Inverno japonês pede bota. Chelsea preta substitui o tênis em qualquer look frio e eleva mais ainda. Biqueira pontiaguda alonga visualmente a perna — bom para 168cm.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ESPORTE / ACADEMIA -->
+    <div class="section">
+      <div class="section-title">Esporte & Academia (gap identificado — inspirado na Federer, linhas permanentes)</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Shorts Ativos DRY-EX</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "DRY-EX Shorts" ou "Sweat Shorts" — linha permanente, não é a coleção Federer (que saiu de linha)</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag season">Academia · Verão</span>
+          </div>
+          <div class="item-price">~¥2.990–3.990</div>
+          <div class="item-why">Mesmo tipo de peça que você curtiu na coleção Federer (que esgotou/saiu de linha) — a linha DRY-EX básica da Uniqlo tem o mesmo tecido técnico e corte, sempre disponível. Navy/preto mantêm a paleta do resto do guarda-roupa.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Moletom com Capuz (Hoodie)</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Sweat Full-Zip Hoodie" ou "Sweat Pullover Parka" — linha permanente</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#3D3D3D"></span>Cinza</span>
+            <span class="tag season">Academia · Outono · Inverno</span>
+          </div>
+          <div class="item-price">~¥3.990–4.990</div>
+          <div class="item-why">Capuz para ir à academia ou fazer recados no fim de semana. Pegue sem logo grande estampado — mantém a linha minimalista mesmo no modo esportivo. Linha básica da Uniqlo, não depende de nenhuma coleção especial.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">AIRism Camiseta Treino</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "AIRism Performance T-Shirt" — tecido tecnológico, respirável</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Prioridade</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#3D3D3D"></span>Cinza</span>
+            <span class="tag season">Academia · Todas estações</span>
+          </div>
+          <div class="item-price">~¥1.500–1.990</div>
+          <div class="item-why">Base técnica para treino — seca rápido, não amostra suor. Diferente das camisetas Supima (essas são para o dia a dia, não para suar). Compre 2-3 unidades.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Tênis de Treino</div>
+              <div class="item-brand">Adidas / Nike / ABC Mart JP</div>
+              <div class="item-search">Buscar: modelo de corrida/treino com bom amortecimento — não confundir com o Stan Smith (esse é lifestyle, não para treinar)</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#3D3D3D"></span>Cinza</span>
+            <span class="tag season">Academia</span>
+          </div>
+          <div class="item-price">~¥8.000–15.000</div>
+          <div class="item-why">Separado do tênis lifestyle (Stan Smith) — treino de verdade precisa de amortecimento próprio. Preto/cinza mantém neutro e não conflita com o resto do guarda-roupa.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CACHECOL / MEIAS / ÓCULOS -->
+    <div class="section">
+      <div class="section-title">Acessórios — Cachecol · Meias · Óculos</div>
+      <div class="items-grid">
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Cachecol Lã / Cashmere Blend</div>
+              <div class="item-brand">Uniqlo</div>
+              <div class="item-search">Buscar: "Cashmere Blend Scarf" ou "Wool Scarf"</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Caramelo</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Marrom</span>
+            <span class="tag season">Inverno</span>
+          </div>
+          <div class="item-price">~¥3.990–7.990</div>
+          <div class="item-why">Inverno japonês pede cachecol. Caramelo sobre Chester navy é a combinação mais elegante do guarda-roupa. Lã/cashmere blend da Uniqlo tem boa relação custo-benefício.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Kit Meias — Algodão / Lã Fina</div>
+              <div class="item-brand">Tabio (Japão)</div>
+              <div class="item-search">Buscar: Tabio — loja física em quase todo shopping japonês</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#3D3D3D"></span>Cinza</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~¥1.000–2.000/par</div>
+          <div class="item-why">Tabio é referência japonesa em meias — qualidade excepcional para o preço. Cinza/navy combina com looks Straight. Regra: meia deve combinar com calça (não com sapato). Evitar branco com sapato social.</div>
+        </div>
+
+        <div class="item-card p3">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Óculos — Armação Tortoise / Acetato Quente</div>
+              <div class="item-brand">JINS ou Zoff (Japão)</div>
+              <div class="item-search">Buscar: "Wellington" ou "Boston" em havana/tortoise — lojas JINS e Zoff em todo shopping</div>
+            </div>
+            <span class="priority-badge badge-3">#3 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Havana / Tortoise</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~¥10.000–15.000 com lentes</div>
+          <div class="item-why">Autumn = tons quentes. Armação tortoise/havana (marrom-âmbar) complementa o tom de pele. Evitar armação preta (fria), prateada ou azul. JINS e Zoff têm excelente custo-benefício com lentes incluídas.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Cinto Couro — Marrom Chocolate</div>
+              <div class="item-brand">Qualquer marca de couro</div>
+              <div class="item-search">Cinto liso, fivela simples dourada ou bronze</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Nível</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Marrom Chocolate</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~R$80–150</div>
+          <div class="item-why">Regra: cinto e sapato na mesma cor. Marrom chocolate combina com loafer marrom. Fivela simples — sem logos ou designs elaborados. Detalhe que une o look silenciosamente.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- LOOKS -->
+    <div class="looks-section">
+      <div class="section-title" style="margin-bottom:14px">Os Looks — Versão Victor</div>
+      <div class="looks-grid">
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Home Office Apresentável</div>
+            <span class="look-season">Todas estações</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1B2A4A">👕</div><div class="flatlay-label">Polo navy</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#B07D3A">👖</div><div class="flatlay-label">Chino caramelo</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#F0E8D8">👟</div><div class="flatlay-label">Tênis branco</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Polo navy (Uniqlo)</li>
+            <li><span class="part">Calça</span> Chino caramelo</li>
+            <li><span class="part">Pés</span> Tênis branco limpo</li>
+          </ul>
+          <div class="look-tip">Limpo, arrumado na câmera. O polo resolve o problema da camiseta justa.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Home Office Relaxado</div>
+            <span class="look-season">Outono · Inverno</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#3D3D3D">🧶</div><div class="flatlay-label">Moletom cinza</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#24365E">👖</div><div class="flatlay-label">Jeans índigo</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#F0E8D8">👟</div><div class="flatlay-label">Tênis branco</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Moletom cinza (Uniqlo)</li>
+            <li><span class="part">Calça</span> Jeans índigo escuro</li>
+            <li><span class="part">Pés</span> Tênis branco</li>
+          </ul>
+          <div class="look-tip">Monocromático frio cria linha vertical. Confortável mas intencional.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Fim de Semana Casual</div>
+            <span class="look-season">Primavera · Verão</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#F0E8D8">👕</div><div class="flatlay-label">Camiseta off-white</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#24365E">👖</div><div class="flatlay-label">Jeans índigo</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#F0E8D8">👟</div><div class="flatlay-label">Tênis branco</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Camiseta off-white (Supima)</li>
+            <li><span class="part">Calça</span> Jeans índigo escuro</li>
+            <li><span class="part">Pés</span> Tênis branco</li>
+          </ul>
+          <div class="look-tip">O básico bem executado. Off-white + índigo = equilíbrio Autumn.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Fim de Semana com Cor</div>
+            <span class="look-season">Qualquer estação</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#C4622D">👕</div><div class="flatlay-label">Camiseta terracota</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1A1A1A">👖</div><div class="flatlay-label">Calça preta</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#F0E8D8">👟</div><div class="flatlay-label">Tênis branco</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Camiseta terracota</li>
+            <li><span class="part">Calça</span> Calça preta slim</li>
+            <li><span class="part">Pés</span> Tênis branco</li>
+          </ul>
+          <div class="look-tip">Terracota ilumina o rosto. Preto embaixo ancora e alonga. Look com intenção.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Smart Casual (jantar / sair)</div>
+            <span class="look-season">Todas estações</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#F0E8D8">👔</div><div class="flatlay-label">Oxford off-white</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1A1A1A">👖</div><div class="flatlay-label">Calça preta</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#5C3D2E">👞</div><div class="flatlay-label">Loafer marrom</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#5C3D2E">🔘</div><div class="flatlay-label">Cinto marrom</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Camisa oxford off-white</li>
+            <li><span class="part">Calça</span> Calça preta slim</li>
+            <li><span class="part">Pés</span> Loafer marrom chocolate</li>
+            <li><span class="part">Extra</span> Cinto marrom</li>
+          </ul>
+          <div class="look-tip">O loafer faz 80% do trabalho. Camisa aberta no colarinho — sem gravata, 2 botões soltos.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Look Leclerc</div>
+            <span class="look-season">Primavera · Outono</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1B2A4A">👕</div><div class="flatlay-label">Polo navy</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#B07D3A">👖</div><div class="flatlay-label">Chino caramelo</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#5C3D2E">👞</div><div class="flatlay-label">Loafer marrom</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#5C3D2E">🔘</div><div class="flatlay-label">Cinto marrom</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Polo navy</li>
+            <li><span class="part">Calça</span> Chino caramelo</li>
+            <li><span class="part">Pés</span> Loafer marrom</li>
+            <li><span class="part">Extra</span> Cinto marrom</li>
+          </ul>
+          <div class="look-tip">Navy + caramelo + marrom = paleta Autumn perfeita. Europeu, limpo, elegante.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Inverno Japonês</div>
+            <span class="look-season">Inverno</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1A1A1A">👕</div><div class="flatlay-label">Camiseta preta</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#B07D3A">🧶</div><div class="flatlay-label">Cardigan caramelo</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1B2A4A">🧥</div><div class="flatlay-label">Chester navy</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1A1A1A">👖</div><div class="flatlay-label">Calça preta</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1A1A1A">🥾</div><div class="flatlay-label">Chelsea boot</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#B07D3A">🧣</div><div class="flatlay-label">Cachecol caramelo</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Base</span> HEATTECH (invisível)</li>
+            <li><span class="part">Top</span> Camiseta preta</li>
+            <li><span class="part">Mid</span> Cardigan caramelo</li>
+            <li><span class="part">Casaco</span> Chester coat navy</li>
+            <li><span class="part">Calça</span> Jeans índigo ou preta</li>
+            <li><span class="part">Pés</span> Chelsea boot preta</li>
+            <li><span class="part">Extra</span> Cachecol caramelo</li>
+          </ul>
+          <div class="look-tip">Sistema de camadas completo. Chester navy + cachecol caramelo = combinação Autumn de alto impacto.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Camada Aberta (Saída)</div>
+            <span class="look-season">Primavera · Outono</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1A1A1A">👕</div><div class="flatlay-label">Camiseta preta</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#5C3D2E">👔</div><div class="flatlay-label">Flanela aberta</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#24365E">👖</div><div class="flatlay-label">Jeans índigo</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#F0E8D8">👟</div><div class="flatlay-label">Tênis branco</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Base</span> Camiseta preta</li>
+            <li><span class="part">Camada</span> Camisa flanela aberta</li>
+            <li><span class="part">Calça</span> Jeans índigo</li>
+            <li><span class="part">Pés</span> Tênis branco</li>
+          </ul>
+          <div class="look-tip">Camisa aberta como camada cria profundidade visual e distrai do volume do peito. Clássico casual japonês.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Academia</div>
+            <span class="look-season">Todas estações</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1A1A1A">👕</div><div class="flatlay-label">AIRism preta</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1B2A4A">🩳</div><div class="flatlay-label">Shorts navy</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#3D3D3D">👟</div><div class="flatlay-label">Tênis treino</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> AIRism camiseta treino preta</li>
+            <li><span class="part">Bottom</span> Shorts DRY-EX navy</li>
+            <li><span class="part">Pés</span> Tênis de treino</li>
+          </ul>
+          <div class="look-tip">Peça específica de treino, tecido técnico. Navy/preto mantém a mesma paleta do resto do guarda-roupa mesmo fora do modo "smart casual".</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Casual Esportivo (recados / academia → rua)</div>
+            <span class="look-season">Outono · Inverno</span>
+          </div>
+          <div class="flatlay">
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1B2A4A">🧶</div><div class="flatlay-label">Hoodie navy</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#3D3D3D">👖</div><div class="flatlay-label">Jogger cinza</div></div>
+            <div class="flatlay-item"><div class="flatlay-swatch" style="background:#1A1A1A">👟</div><div class="flatlay-label">Dudalina preto</div></div>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Moletom com capuz navy</li>
+            <li><span class="part">Bottom</span> Jogger navy/cinza</li>
+            <li><span class="part">Pés</span> Tênis de treino ou Dudalina preto</li>
+          </ul>
+          <div class="look-tip">O tipo de combinação que você curtiu na coleção Federer — dá pra sair da academia direto para um recado sem trocar de roupa e ainda parecer arrumado. Hoodie sem logo grande mantém o minimalismo. Linhas básicas da Uniqlo, sempre disponíveis.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /tab-budget -->
+
+
+  <!-- ============ TAB: PREMIUM ============ -->
+  <div class="tab-pane" id="tab-premium">
+
+    <div style="background:#FBF5EE;border:1px solid #E8D8C4;border-radius:10px;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#5C3D2E;line-height:1.6">
+      <strong>Filosofia desta versão:</strong> Sem limite de preço. Foco em qualidade de construção, durabilidade de décadas e estilo atemporal. Marcas europeias e japonesas de nicho. Uma peça boa vale mais que cinco mediocres.
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="priority-dot dot-1"></div> Prioridade 1 — Fundação do guarda-roupa</div>
+      <div class="legend-item"><div class="priority-dot dot-2"></div> Prioridade 2 — Eleva o conjunto</div>
+      <div class="legend-item"><div class="priority-dot dot-3"></div> Prioridade 3 — Refinamento final</div>
+    </div>
+
+    <!-- CASACOS -->
+    <div class="section">
+      <div class="section-title">Casacos & Outerwear</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Overcoat Lã Virgem</div>
+              <div class="item-brand">Private White V.C. (Manchester)</div>
+              <div class="item-search">Buscar: "The Officer Coat" ou "Crombie" — privatwhite.com</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Chocolate</span>
+            <span class="tag season">Outono · Inverno</span>
+          </div>
+          <div class="item-price">~£495 (~R$3.600)</div>
+          <div class="item-why">Manufatura britânica — feito à mão em Manchester desde 1853. Lã virgem que dura 30+ anos. O Straight type vestido num overcoat bem cortado é a combinação mais elegante que existe. Peça de vida, não de temporada.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Mackintosh Rubberized Cotton Coat</div>
+              <div class="item-brand">Mackintosh (Escócia)</div>
+              <div class="item-search">Buscar: "Dunoon" ou "Granish" — mackintosh.com</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#4A5240"></span>Olive / Hunter</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag season">Chuva · Primavera · Outono</span>
+          </div>
+          <div class="item-price">~£650 (~R$4.700)</div>
+          <div class="item-why">Japão chove muito. Mackintosh é impermeável sem parecer capa de chuva — algodão vulcanizado escocês desde 1823. Olive/Hunter é perfeito para Autumn. Cada casaco é handmade em Ceres, Escócia.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CAMISAS PREMIUM -->
+    <div class="section">
+      <div class="section-title">Camisas — Social & Casual</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Camisa Oxford OCBD</div>
+              <div class="item-brand">Drake's (Londres)</div>
+              <div class="item-search">Buscar: "Oxford Button-Down Shirt" — drakes.com</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#F0E8D8"></span>Off-white</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~£195 (~R$1.400)</div>
+          <div class="item-why">Drake's é a referência inglesa em OCBD. Tecido oxford mais pesado e texturado que o mercado em geral — estrutura que funciona perfeitamente para o Straight type. Costura impecável, colarinho que se comporta. Dura uma década.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Camisa Linho Italiana</div>
+              <div class="item-brand">Massimo Dutti</div>
+              <div class="item-search">Buscar: "Camisa slim de linho" — massimoDutti.com</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#4A5240"></span>Olive</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Caramelo</span>
+            <span class="tag season">Primavera · Verão</span>
+          </div>
+          <div class="item-price">~€89 (~R$500)</div>
+          <div class="item-why">Massimo Dutti usa linho europeu com corte slim sem ser apertado — o equilíbrio certo para o Straight. Marca disponível no Japão. Melhor custo-benefício na categoria premium.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TOPS PREMIUM -->
+    <div class="section">
+      <div class="section-title">Camisetas & Tops</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Classic T-Shirt — Off-white & Preta</div>
+              <div class="item-brand">Sunspel (Reino Unido)</div>
+              <div class="item-search">Buscar: "Classic Crew Neck T-Shirt" — sunspel.com</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#F0E8D8"></span>Off-white</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1A1A1A"></span>Preto</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~£65 (~R$470) cada</div>
+          <div class="item-why">Sunspel fabrica camisetas desde 1860. Algodão Sea Island de fibra longa — textura única, não defoma, não transparece. A camiseta "invisível" que eleva qualquer look. James Bond usou Sunspel em 007.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Polo Sea Island Cotton</div>
+              <div class="item-brand">John Smedley (Peak District, UK)</div>
+              <div class="item-search">Buscar: "Adrian" ou "Roth" polo — johnsmedley.com</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#4A5240"></span>Olive</span>
+            <span class="tag season">Primavera · Verão · Outono</span>
+          </div>
+          <div class="item-price">~£130 (~R$940)</div>
+          <div class="item-why">John Smedley produz malha fina desde 1784 na mesma fábrica. Sea Island cotton é a fibra mais fina do mundo — polo que parece segunda pele mas com estrutura. Navy é a cor icônica deles.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Sweatshirt Minimal</div>
+              <div class="item-brand">Arket (H&M premium)</div>
+              <div class="item-search">Buscar: "Cotton Terry Sweatshirt" — arket.com</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Eleva</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#3D3D3D"></span>Cinza Quente</span>
+            <span class="tag season">Outono · Inverno</span>
+          </div>
+          <div class="item-price">~€79 (~R$440)</div>
+          <div class="item-why">Arket é a linha Scandinavian minimal da H&M — qualidade claramente superior. Cotton terry pesado, corte limpo sem costuras desnecessárias. Cinza quente (não frio) para Autumn.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MID-LAYER PREMIUM -->
+    <div class="section">
+      <div class="section-title">Mid-Layer & Knitwear</div>
+      <div class="items-grid">
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Cardigan Cachemira</div>
+              <div class="item-brand">Johnstons of Elgin (Escócia)</div>
+              <div class="item-search">Buscar: "Cashmere V-Neck Cardigan" — johnstonsofelgin.com</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Eleva</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Caramelo</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Camel</span>
+            <span class="tag season">Outono · Inverno</span>
+          </div>
+          <div class="item-price">~£295 (~R$2.100)</div>
+          <div class="item-why">Johnstons tece cachemira escocesa desde 1797. Caramelo/camel são as cores Autumn por excelência. Um cardigan cachemira de qualidade dura 20+ anos e fica mais bonito com o uso.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Merino Crewneck</div>
+              <div class="item-brand">COS</div>
+              <div class="item-search">Buscar: "Merino Wool Jumper" — cos.com</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Eleva</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#4A5240"></span>Olive</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag season">Outono · Inverno</span>
+          </div>
+          <div class="item-price">~€99 (~R$550)</div>
+          <div class="item-why">COS (do grupo H&M) usa design Scandinavian puro — sem logos, sem detalhes desnecessários. Merino premium com caimento limpo. Disponível no Japão. Ótimo para Straight type.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CALÇAS PREMIUM -->
+    <div class="section">
+      <div class="section-title">Calças</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Jeans Selvedge Japonês</div>
+              <div class="item-brand">Momotaro Jeans (Okayama, Japão)</div>
+              <div class="item-search">Buscar: "0705SP" (slim taper) — momotaro-jeans.com ou lojas em Osaka/Tokyo</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Índigo Escuro Raw</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~¥45.000 (~R$410)</div>
+          <div class="item-why">Denim selvedge japonês é o melhor do mundo — tecido em teares vintage de Okayama. O índigo envelhece com você, criando fades únicos. Um jeans que dura 20 anos e fica mais bonito. No Japão, esta é a experiência certa para ter.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Chino Slim — Caramelo (Incotex)</div>
+              <div class="item-brand">Incotex (Itália)</div>
+              <div class="item-search">Buscar: "Slim Fit Chino" — incotex.com ou lojas multimarca JP</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Caramelo / Tabacco</span>
+            <span class="tag season">Primavera · Outono</span>
+          </div>
+          <div class="item-price">~€220 (~R$1.200)</div>
+          <div class="item-why">Incotex é o padrão ouro em calças italianas. Tecido "Comfort" com elastano micro que mantém a forma impecável o dia todo. Caramelo/Tabacco são cores Autumn que a Incotex domina. Corte que valoriza sem apertar.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CALÇADOS PREMIUM -->
+    <div class="section">
+      <div class="section-title">Calçados</div>
+      <div class="items-grid">
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Loafer / Penny Loafer</div>
+              <div class="item-brand">Meermin (Mallorca) ou Paraboot (França)</div>
+              <div class="item-search">Meermin: "Cobbler Loafer" · Paraboot: "Morzine" — meermin.es / paraboot.com</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Marrom Chocolate</span>
+            <span class="tag season">Todas estações (exceto neve)</span>
+          </div>
+          <div class="item-price">~€200–380 (~R$1.100–2.100)</div>
+          <div class="item-why">Meermin é a melhor relação custo-benefício em calçado europeu de qualidade — sola Goodyear welted, reparo possível, dura décadas. Paraboot é francês, resistente até chuva. Marrom chocolate é cor Autumn ideal para loafer.</div>
+        </div>
+
+        <div class="item-card p1">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Chelsea Boot</div>
+              <div class="item-brand">Tricker's (Northampton, UK)</div>
+              <div class="item-search">Buscar: "Chelsea Boot" Acorn Antique — trickers.com</div>
+            </div>
+            <span class="priority-badge badge-1">#1 Fundação</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Marrom Acorn / Preta</span>
+            <span class="tag season">Outono · Inverno</span>
+          </div>
+          <div class="item-price">~£395 (~R$2.800)</div>
+          <div class="item-why">Tricker's fabrica sapatos em Northampton desde 1829. Goodyear welted — sola trocável, dura 30+ anos. "Acorn Antique" (marrom envelhecido) é cor Autumn perfeita. Inverno japonês tratado com respeito.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Tênis Minimal — Branco</div>
+              <div class="item-brand">Common Projects</div>
+              <div class="item-search">Buscar: "Achilles Low White" — commonprojects.com ou lojas JP</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Eleva</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#F0E8D8"></span>Branco</span>
+            <span class="tag season">Primavera · Verão · Outono</span>
+          </div>
+          <div class="item-price">~$490 (~R$2.700)</div>
+          <div class="item-why">O tênis mais minimal e elegante que existe. Couro italiano, sem logos — apenas o número de série em dourado. Eleva qualquer look casual ao nível do look smart. Referência em todo o mundo fashion.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ACESSÓRIOS PREMIUM -->
+    <div class="section">
+      <div class="section-title">Acessórios — Cachecol · Meias · Óculos</div>
+      <div class="items-grid">
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Cachecol Cachemira</div>
+              <div class="item-brand">Drake's ou Begg & Co (Escócia)</div>
+              <div class="item-search">Drake's: "Cashmere Scarf" · Begg: "Arran Scarf" — drakes.com / beggandco.com</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Eleva</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#B07D3A"></span>Caramelo</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Camel</span>
+            <span class="tag season">Inverno</span>
+          </div>
+          <div class="item-price">~£175–250 (~R$1.250–1.800)</div>
+          <div class="item-why">Begg & Co tece cachemira escocesa desde 1866. Drake's usa cashmere de referência. Caramelo sobre Chester navy é a combinação mais elegante do guarda-roupa. Um cachecol bom dura décadas.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Meias Merino / Cachemira</div>
+              <div class="item-brand">Pantherella (Leicester, UK)</div>
+              <div class="item-search">Buscar: "Merino Wool Socks" — pantherella.com ou lojas multimarca JP</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Eleva</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#3D3D3D"></span>Cinza Escuro</span>
+            <span class="tag color-tag"><span class="color-dot" style="background:#1B2A4A"></span>Navy</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~£16–22/par (~R$115–160)</div>
+          <div class="item-why">Pantherella é o padrão em meias de qualidade — produzidas em Leicester desde 1937. Merino respira, regula temperatura, não provoca odor. Detalhe que você sente mas que eleva a experiência diária.</div>
+        </div>
+
+        <div class="item-card p2">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Óculos — Acetato Japonês</div>
+              <div class="item-brand">Eyevan 7285 (Japão)</div>
+              <div class="item-search">Buscar: modelos "Eve" ou "738" — eyevan.com ou ópticas Aoyama/Ginza</div>
+            </div>
+            <span class="priority-badge badge-2">#2 Eleva</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Havana / Tortoise</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~¥60.000–80.000 (~R$550–730)</div>
+          <div class="item-why">Eyevan 7285 é a referência japonesa em óculos artesanais — acetato de Sabae (capital mundial dos óculos no Japão). Tortoise/havana é exatamente a cor certa para Autumn. Lentes incluídas em ópticas japonesas a preço justo.</div>
+        </div>
+
+        <div class="item-card p3">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Oliver Peoples — Boston / Wellington</div>
+              <div class="item-brand">Oliver Peoples (LA)</div>
+              <div class="item-search">Buscar: "Gregory Peck" ou "Cary" — oliverpeoples.com — lojas em Omotesando (Tokyo)</div>
+            </div>
+            <span class="priority-badge badge-3">#3 Refinamento</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Tortoise / Brandy</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~$415 (~R$2.300) sem lentes</div>
+          <div class="item-why">Oliver Peoples é a referência americana em óculos premium. "Gregory Peck" em tortoise é um clássico atemporal — usado por atores, designers, músicos. A armação que mais aproxima do perfil clean/elegant que você quer.</div>
+        </div>
+
+        <div class="item-card p3">
+          <div class="card-top">
+            <div>
+              <div class="item-name">Relógio Japonês</div>
+              <div class="item-brand">Seiko Presage ou Orient Bambino</div>
+              <div class="item-search">Seiko: "Presage Basic Line" · Orient: "Bambino V2" — lojas Yodobashi ou Bic Camera JP</div>
+            </div>
+            <span class="priority-badge badge-3">#3 Refinamento</span>
+          </div>
+          <div class="card-meta">
+            <span class="tag color-tag"><span class="color-dot" style="background:#5C3D2E"></span>Pulseira couro marrom</span>
+            <span class="tag season">Todas estações</span>
+          </div>
+          <div class="item-price">~¥30.000–55.000 (~R$270–500)</div>
+          <div class="item-why">Comprar relógio japonês no Japão é uma experiência única. Seiko Presage e Orient são automáticos, elegantes e com custo-benefício excepcional. Mostrador simples (sem complicações) + pulseira couro marrom = Autumn perfeito.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- LOOKS PREMIUM -->
+    <div class="looks-section">
+      <div class="section-title" style="margin-bottom:14px">Os Looks — Versão Premium</div>
+      <div class="looks-grid">
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">The Leclerc Premium</div>
+            <span class="look-season">Primavera · Outono</span>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Polo John Smedley navy</li>
+            <li><span class="part">Calça</span> Chino Incotex caramelo</li>
+            <li><span class="part">Pés</span> Loafer Meermin marrom</li>
+            <li><span class="part">Relógio</span> Seiko Presage + pulseira couro</li>
+            <li><span class="part">Óculos</span> Eyevan tortoise</li>
+          </ul>
+          <div class="look-tip">Look que faz a sala inteira notar. Cada peça é de qualidade mas o total é clean — sem exagero.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Inverno Londrino</div>
+            <span class="look-season">Inverno</span>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Base</span> HEATTECH (invisível)</li>
+            <li><span class="part">Top</span> Sunspel T-shirt preta</li>
+            <li><span class="part">Mid</span> Cardigan cachemira caramelo</li>
+            <li><span class="part">Casaco</span> Private White overcoat navy</li>
+            <li><span class="part">Calça</span> Momotaro jeans índigo</li>
+            <li><span class="part">Pés</span> Tricker's Chelsea boot</li>
+            <li><span class="part">Extra</span> Cachecol Drake's caramelo</li>
+          </ul>
+          <div class="look-tip">Peças que duram 30 anos. O investimento mais inteligente em moda masculina.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Chuva de Tokyo</div>
+            <span class="look-season">Primavera · Chuva</span>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Camisa Drake's off-white</li>
+            <li><span class="part">Mid</span> COS Merino olive</li>
+            <li><span class="part">Casaco</span> Mackintosh olive</li>
+            <li><span class="part">Calça</span> Incotex chino caramelo</li>
+            <li><span class="part">Pés</span> Paraboot marrom</li>
+          </ul>
+          <div class="look-tip">Impermeável sem parecer capa de chuva. Olive × caramelo = Autumn total.</div>
+        </div>
+
+        <div class="look-card">
+          <div class="look-header">
+            <div class="look-title">Fim de Semana Minimalista</div>
+            <span class="look-season">Verão · Primavera</span>
+          </div>
+          <ul class="look-items">
+            <li><span class="part">Top</span> Sunspel T-shirt off-white</li>
+            <li><span class="part">Calça</span> Momotaro jeans índigo</li>
+            <li><span class="part">Pés</span> Common Projects branco</li>
+            <li><span class="part">Óculos</span> Oliver Peoples tortoise</li>
+          </ul>
+          <div class="look-tip">Parece simples. Não é. Cada peça é a melhor da categoria. É esse o segredo.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /tab-premium -->
+
+</div><!-- /content -->
+
+<script>
+// Links exatos de produto por nome do item
+const productLinks = {
+  // ── BUDGET: CASACOS ──
+  'Chester Coat de Lã':
+    'https://www.uniqlo.com/jp/ja/products/E471723-000/00',
+  'Ultra Light Down Jacket':
+    'https://www.uniqlo.com/jp/ja/products/E463247-000/00',
+  'Jaqueta Harrington':
+    'https://www.zara.com/jp/ja/軽量コットンジャケット-p03918900.html',
+
+  // ── BUDGET: HEATTECH ──
+  'HEATTECH Extra Warm — Camiseta':
+    'https://www.uniqlo.com/jp/ja/men/innerwear/heattech/heattec-cotton-extra-warm',
+  'HEATTECH Extra Warm — Calça':
+    'https://www.uniqlo.com/jp/ja/men/innerwear/heattech',
+
+  // ── BUDGET: CAMISAS ──
+  'Camisa Oxford Botão (OCBD)':
+    'https://www.uniqlo.com/jp/ja/products/E450259-000/00',
+  'Camisa Linho Manga Curta':
+    'https://www.uniqlo.com/jp/ja/products/E477181-000/00',
+  'Camisa Flanela (quadriculada fina)':
+    'https://www.uniqlo.com/jp/ja/men/tops/shirts',
+
+  // ── BUDGET: ESPORTE / ACADEMIA ──
+  'Shorts Ativos DRY-EX':
+    'https://www.uniqlo.com/jp/ja/men/bottoms/shorts',
+  'Moletom com Capuz (Hoodie)':
+    'https://www.uniqlo.com/jp/ja/men/tops/sweatshirts-hoodies',
+  'AIRism Camiseta Treino':
+    'https://www.uniqlo.com/jp/ja/products/E474244-000/00',
+  'Tênis de Treino':
+    'https://www.adidas.com/us/',
+
+  // ── BUDGET: TOPS ──
+  'Camiseta Supima Cotton — Off-white':
+    'https://www.uniqlo.com/jp/ja/products/E455365-000/00?colorDisplayCode=00',
+  'Camiseta Supima Cotton — Preta':
+    'https://www.uniqlo.com/jp/ja/products/E455365-000/00',
+  'Polo Piqué':
+    'https://www.uniqlo.com/jp/ja/products/E455388-000/00',
+  'Camiseta — Terracota':
+    'https://www.zara.com/jp/ja/man-tshirts-plain-l865.html',
+  'Moletom Crew Neck':
+    'https://www.uniqlo.com/jp/ja/products/E442515-000/00',
+  'Camiseta Linho':
+    'https://www.uniqlo.com/jp/ja/men/tops/shirts',
+
+  // ── BUDGET: MID-LAYER ──
+  'Cardigan Merino V-Neck':
+    'https://www.uniqlo.com/jp/ja/products/E435791-000/00',
+  'Fleece Full-Zip Jacket':
+    'https://www.uniqlo.com/jp/ja/products/E462028-000/00',
+
+  // ── BUDGET: CALÇAS ──
+  'Jeans Straight/Taper — Índigo Escuro':
+    'https://www.levi.com/US/en_US/clothing/men/jeans/taper/japanese-selvedge-502TM-taper-fit-mens-jeans/p/A58810000',
+  'Chino Slim — Caramelo':
+    'https://www.uniqlo.com/jp/ja/products/E450251-000/00',
+  'Calça Slim — Preta':
+    'https://www.zara.com/jp/ja/スリムフィットスーツパンツ-p07380105.html',
+  'Calça Jogger / Smart Sweat':
+    'https://www.uniqlo.com/jp/ja/products/E453843-000/00',
+
+  // ── BUDGET: CALÇADOS ──
+  'Tênis Couro Limpo — Branco':
+    'https://www.adidas.com/us/stan-smith-shoes/M20324.html',
+  'Loafer / Mocassim — Marrom Chocolate':
+    'https://www.abc-mart.net/',
+  'Chelsea Boot — Preta':
+    'https://www.zara.com/jp/ja/レザーチェルシーブーツ-p12028720.html',
+
+  // ── BUDGET: ACESSÓRIOS ──
+  'Cachecol Lã / Cashmere Blend':
+    'https://www.uniqlo.com/jp/ja/men/accessories/scarves',
+  'Kit Meias — Algodão / Lã Fina':
+    'https://tabio.com/jp/detail/062130927/',
+  'Óculos — Armação Tortoise / Acetato Quente':
+    'https://www.jins.com/jp/item/UCF-22A-181.html',
+  'Cinto Couro — Marrom Chocolate':
+    'https://www.abc-mart.net/',
+
+  // ── PREMIUM: CASACOS ──
+  'Overcoat Lã Virgem':
+    'https://www.privatewhitevc.com/products/the-chester-overcoat',
+  'Mackintosh Rubberized Cotton Coat':
+    'https://www.mackintosh.com/en-us/products/mens-dunoon-raintec-short-coat-navy',
+
+  // ── PREMIUM: CAMISAS ──
+  'Camisa Oxford OCBD':
+    'https://www.drakes.com/products/white-oxford-cotton-cloth-button-down-shirt-1',
+  'Camisa Linho Italiana':
+    'https://www.massimodutti.com/us/slimfit-100-linen-shirt-l00120408',
+
+  // ── PREMIUM: TOPS ──
+  'Classic T-Shirt — Off-white & Preta':
+    'https://us.sunspel.com/products/mens-short-sleeve-crew-neck-t-shirt-white',
+  'Polo Sea Island Cotton':
+    'https://www.johnsmedley.com/en-us/isis-navy',
+  'Sweatshirt Minimal':
+    'https://www.arket.com/en/men/sweatshirts-hoodies/product.french-terry-sweatshirt-grey.0495533005.html',
+
+  // ── PREMIUM: MID-LAYER ──
+  'Cardigan Cachemira':
+    'https://johnstonsofelgin.com/en-us/products/mens-camel-cashmere-v-neck-jumper',
+  'Merino Crewneck':
+    'https://www.cos.com/en-ww/men/menswear/knitwear/merino/product/oversized-merino-wool-jersey-jumper-navy-1250554001',
+
+  // ── PREMIUM: CALÇAS ──
+  'Jeans Selvedge Japonês':
+    'https://www.momotarojeans.net/collection/0705SP/index.html',
+  'Chino Slim — Caramelo (Incotex)':
+    'https://www.farfetch.com/shopping/men/73456-designer-incotex/chinos-2/items.aspx',
+
+  // ── PREMIUM: CALÇADOS ──
+  'Loafer / Penny Loafer':
+    'https://www.meermin.es/in_en/10165055170000sg-17-101650-dark-brown-alpine-calf-g-marron.html',
+  'Chelsea Boot':
+    'https://trickers.com/products/brighton-chelsea-boot-brown-cutter',
+  'Tênis Minimal — Branco':
+    'https://www.ssense.com/en-us/men/product/common-projects/white-original-achilles-low-sneakers/17432331',
+
+  // ── PREMIUM: ACESSÓRIOS ──
+  'Cachecol Cachemira':
+    'https://www.drakes.com/products/oatmeal-cashmere-scarf',
+  'Meias Merino / Cachemira':
+    'https://www.pantherella.com/us/laburnum',
+  'Óculos — Acetato Japonês':
+    'https://eyevan7285.com/en/collection-all-models/',
+  'Oliver Peoples — Boston / Wellington':
+    'https://www.oliverpeoples.com/en-us/products/0ov5186f-1778',
+  'Relógio Japonês':
+    'https://www.seikowatches.com/us-en/products/presage',
+};
+
+// Incotex tem nome levemente diferente no HTML (sem sufixo) — fallback por brand
+const brandFallback = {
+  'Incotex': 'https://www.farfetch.com/shopping/men/73456-designer-incotex/chinos-2/items.aspx',
+  'Paraboot': 'https://www.paraboot.com/',
+  'Begg':     'https://www.beggandco.com/',
+};
+
+// Ícones por categoria (line icons, silhueta simples) — usados quando não há foto real do produto
+const categoryIcons = {
+  coat:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3l5 2 5-2 2 5-3 1.5V21H5V9.5L2 8z"/><path d="M9 3.5v6M15 3.5v6"/></svg>',
+  shirt:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l4 2 4-2 4 4-3 3v11H7V10L4 7z"/><path d="M12 5v2"/></svg>',
+  polo:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l4 1.5L16 3l4 4-3 3v11H7V10L4 7z"/><circle cx="12" cy="7" r="0.6" fill="currentColor"/><circle cx="12" cy="9.5" r="0.6" fill="currentColor"/></svg>',
+  tshirt:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L4 7l2 3 2-1v11h8V9l2 1 2-3-3-3-3 1.5h-4z"/></svg>',
+  knit:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l4 1.5L16 3l4 4-3 3v11H7V10L4 7z"/><path d="M9 21V9M15 21V9" stroke-dasharray="1.5 1.8"/></svg>',
+  pants:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 2h10l1 6-1.5 1L18 21h-4l-1.5-9L11 21H7l1.5-12L7 8z"/></svg>',
+  loafer:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c0-2 2-3 4-4l6-3c2-1 4-1 6 1l2 2v3c0 1-1 2-2 2H4c-1 0-1-1-1-1z"/><path d="M9 12v3"/></svg>',
+  boot:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h5v9l6 4c1 .6 1 2 1 2H4v-6c0-1 .5-2 2-2h2z"/><path d="M8 6h5M8 9h5"/></svg>',
+  sneaker:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16c2-1 3-4 5-5l4-2 5 3 4-1v3c1 0 2 1 2 2s-1 2-2 2H4c-1 0-1-1-1-1z"/></svg>',
+  scarf:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6c3 2 6 2 9 0s6-2 9 0"/><path d="M8 6v13c0 1 1 2 2 2s2-1 2-2v-4"/></svg>',
+  glasses:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="14" r="3.5"/><circle cx="17.5" cy="14" r="3.5"/><path d="M10 14h4M3 12l1-4h2M21 12l-1-4h-2"/></svg>',
+  belt:     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="18" height="4" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>',
+  socks:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6v9l4 5c1 1.5 0 4-2 4h-4c-1 0-2-1-2-2v-6H9z"/></svg>',
+  watch:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5.5"/><path d="M12 9v3l2 1M9 3h6M9 21h6"/></svg>',
+};
+
+function pickIcon(name) {
+  const n = name.toLowerCase();
+  if (n.includes('coat') || n.includes('overcoat') || n.includes('chester') || n.includes('mackintosh') || n.includes('down jacket') || n.includes('harrington') || n.includes('jaqueta')) return categoryIcons.coat;
+  if (n.includes('polo')) return categoryIcons.polo;
+  if (n.includes('camisa') || n.includes('shirt') || n.includes('oxford') || n.includes('flanela') || n.includes('linho')) return categoryIcons.shirt;
+  if (n.includes('cardigan') || n.includes('fleece') || n.includes('crewneck') || n.includes('merino') && n.includes('jumper')) return categoryIcons.knit;
+  if (n.includes('camiseta') || n.includes('t-shirt') || n.includes('tshirt') || n.includes('heattech — camiseta')) return categoryIcons.tshirt;
+  if (n.includes('moletom') || n.includes('sweatshirt') || n.includes('sweater')) return categoryIcons.knit;
+  if (n.includes('calça') || n.includes('chino') || n.includes('jeans') || n.includes('pants') || n.includes('jogger')) return categoryIcons.pants;
+  if (n.includes('loafer') || n.includes('mocassim')) return categoryIcons.loafer;
+  if (n.includes('boot') || n.includes('chelsea')) return categoryIcons.boot;
+  if (n.includes('tênis') || n.includes('tenis') || n.includes('sneaker') || n.includes('achilles') || n.includes('stan smith')) return categoryIcons.sneaker;
+  if (n.includes('cachecol') || n.includes('scarf')) return categoryIcons.scarf;
+  if (n.includes('óculos') || n.includes('oculos') || n.includes('glasses') || n.includes('peck') || n.includes('eyevan')) return categoryIcons.glasses;
+  if (n.includes('cinto') || n.includes('belt')) return categoryIcons.belt;
+  if (n.includes('meias') || n.includes('socks') || n.includes('laburnum')) return categoryIcons.socks;
+  if (n.includes('relógio') || n.includes('relogio') || n.includes('watch') || n.includes('seiko') || n.includes('orient')) return categoryIcons.watch;
+  return categoryIcons.tshirt;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Ícones + reorganização do card-top
+  document.querySelectorAll('.item-card').forEach(card => {
+    const cardTop = card.querySelector('.card-top');
+    const nameEl  = card.querySelector('.item-name');
+    if (!cardTop || !nameEl) return;
+
+    const textBlock = nameEl.closest('.card-top > div');
+    if (!textBlock || textBlock.classList.contains('card-top-left')) return;
+
+    const iconWrap = document.createElement('div');
+    iconWrap.className = 'card-icon';
+    iconWrap.innerHTML = pickIcon(nameEl.textContent.trim());
+
+    const left = document.createElement('div');
+    left.className = 'card-top-left';
+    textBlock.parentElement.insertBefore(left, textBlock);
+    left.appendChild(iconWrap);
+    left.appendChild(textBlock);
+  });
+
+  document.querySelectorAll('.item-card').forEach(card => {
+    const nameEl  = card.querySelector('.item-name');
+    const brandEl = card.querySelector('.item-brand');
+    const searchEl = card.querySelector('.item-search');
+    const isOwned = !!card.querySelector('.owned-badge');
+    if (!nameEl || !searchEl || isOwned) return;
+
+    const name  = nameEl.textContent.trim();
+    const brand = brandEl ? brandEl.textContent.trim() : '';
+
+    let url = productLinks[name];
+
+    // fallback por brand se nome não bateu
+    if (!url) {
+      for (const [k, v] of Object.entries(brandFallback)) {
+        if (brand.includes(k)) { url = v; break; }
+      }
+    }
+
+    if (url) {
+      const btn = document.createElement('a');
+      btn.href = url;
+      btn.target = '_blank';
+      btn.rel = 'noopener noreferrer';
+      btn.textContent = 'Ver produto →';
+      btn.className = 'buy-btn';
+      searchEl.insertAdjacentElement('afterend', btn);
+    } else {
+      const note = document.createElement('div');
+      note.className = 'buy-note';
+      note.textContent = '→ Buscar pelo nome exato no Google';
+      searchEl.insertAdjacentElement('afterend', note);
+    }
+  });
+});
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

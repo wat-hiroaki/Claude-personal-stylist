@@ -1,84 +1,127 @@
 {
-  "nickname": "",
-  "gender": "",
+  "nickname": "Victor",
+  "gender": "male",
   "age_range": "",
 
   "body": {
-    "height_cm": null,
-    "weight_kg": null,
-    "skeleton_type": "",
+    "height_cm": 168,
+    "weight_kg": 83,
+    "skeleton_type": "straight",
     "face_type": "",
-    "personal_color": "",
-    "shoulder_width": "",
-    "body_shape": "",
-    "concerns": []
+    "personal_color": "autumn",
+    "shoulder_width": "broad",
+    "body_shape": "upper-body dominant, abdomen volume",
+    "concerns": ["tight shirts emphasize upper body volume", "tank tops unflattering", "difficulty pairing shoes", "abdomen area"]
   },
 
   "lifestyle": {
     "occupation": "",
-    "dress_code": "",
-    "main_scenes": [],
+    "dress_code": "casual",
+    "main_scenes": ["home office", "gym", "weekend"],
     "climate": ""
   },
 
   "taste": {
-    "vector": null,
-    "style_label": "",
-    "target_vibes": [],
-    "favorite_brands": [],
-    "favorite_people": [],
-    "avoid": [],
-    "preferred_fit": "",
-    "color_preference": "",
-    "pattern_preference": []
+    "vector": {
+      "minimal": 0.85,
+      "smart_casual": 0.80,
+      "street": 0.15,
+      "sporty": 0.25,
+      "formal": 0.35
+    },
+    "style_label": "Smart Casual Minimalista — Differentiated Professional",
+    "target_vibes": ["clean", "simple", "presentable", "elegant", "European smart casual", "professional but not stiff", "quietly distinctive"],
+    "favorite_brands": ["Zara", "Uniqlo", "Hugo Boss", "Gas", "Banana Republic", "Levi's"],
+    "favorite_people": ["Charles Leclerc", "Roger Federer (off-court style)"],
+    "avoid": ["tank tops", "tight fitted shirts", "heavy logos", "oversized streetwear", "overly formal/starched looks", "bright yellow/blue sporty graphics"],
+    "preferred_fit": "just-fit, not tight, not baggy — straight silhouette",
+    "color_preference": "earth tones, warm neutrals — terracotta, olive, camel, dark brown, warm grey, navy",
+    "pattern_preference": ["solid colors", "minimal patterns"],
+    "image_goal": "Wants to look professional/successful without being overly formal — 'differentiated' impression via quality and fit, not flashiness. Comfortable adding one athletic-adjacent influence (Federer off-court polos) as long as it stays in the Autumn palette (navy over yellow/bright blue, no big logos)."
   },
 
   "wardrobe": {
-    "key_items": [],
-    "missing_items": [],
-    "seasonal_gaps": []
+    "owned_items": [
+      {"name": "Tênis de Couro Dudalina Texturizado Preto", "category": "shoes", "color": "black leather, textured, white sole", "price_brl": 339.99, "store": "Dafiti", "note": "bought in Brazil before moving — clean derby-cut leather sneaker with white sole; bridges casual sneaker and smart shoe; works with black/navy/grey/indigo looks"}
+    ],
+    "key_items": ["gym clothes (basic)", "weekend clothes"],
+    "missing_items": [
+      "quality basic t-shirts (straight fit, Supima)",
+      "chino slim caramelo",
+      "jeans straight indigo escuro",
+      "calca slim preta",
+      "polo navy",
+      "camisa oxford OCBD",
+      "camisa linho manga curta",
+      "moletom crew neck cinza",
+      "cardigan merino caramelo",
+      "chester coat",
+      "jaqueta harrington olive",
+      "HEATTECH set",
+      "tenis couro branco",
+      "loafer marrom chocolate",
+      "chelsea boot preta",
+      "cachecol la caramelo",
+      "meias kit (Tabio)",
+      "oculos acetato tortoise/havana",
+      "cinto couro marrom",
+      "shorts ativos DRY-EX (linha permanente Uniqlo)",
+      "moletom com capuz / hoodie (linha permanente Uniqlo)",
+      "AIRism camiseta treino (2-3 unidades)",
+      "tenis de treino (separado do lifestyle)"
+    ],
+    "seasonal_gaps": ["inverno japonês (frio 0-10°C)", "verão japonês (quente/umido 25-35°C)"],
+    "identified_gaps_note": "Guarda-roupa original cobria só smart casual; academia/esporte estava ausente apesar de 'gym' estar em main_scenes. Corrigido com sub-capsula esportiva em navy/preto/cinza. IMPORTANTE: a coleção Uniqlo x Roger Federer (colab sazonal/edição limitada) esgotou quase inteira quando Victor checou — colabs da Uniqlo não são repostas como itens básicos. Substituído por linhas permanentes equivalentes (DRY-EX shorts, Sweat hoodie, Dry Piqué polo) que mantêm o mesmo corte/função sem depender de disponibilidade de colab.",
+    "seasonal_purchase_timing": "Confirmado com Victor (screenshot Uniqlo, ago/2026): itens de inverno (Down Jacket, Chester Coat, HEATTECH, Fleece, Cardigan merino) ficam sem estoque em TODAS as cores durante a virada ago/set — é a transição de catálogo verão→outono/inverno da Uniqlo, não descontinuação. Estratégia: comprar peças de verão/meia-estação primeiro (disponíveis agora), ativar aviso de reposição (再入荷通知) nas de inverno ou aguardar a chegada da coleção AW (normalmente set/out) para comprá-las."
   },
 
   "shopping": {
-    "budget_per_item_yen": null,
-    "monthly_budget_yen": null,
+    "budget_per_item_brl": 200,
+    "monthly_budget_brl": null,
     "preferred_sizes": {
-      "tops": "",
-      "bottoms": "",
+      "tops": "M",
+      "bottoms": "40-42",
       "shoes_cm": null
     },
-    "size_notes": "",
+    "size_notes": "Straight skeleton type — avoid tight fits that emphasize upper body volume; prefer structured cuts with some room in the chest. M in tops may run tight in chest/shoulders depending on brand — check measurements.",
     "stores": [
       {
-        "name": "UNIQLO",
-        "urls": [
-          "https://www.uniqlo.com/jp/ja/men/tops/t-shirts",
-          "https://www.uniqlo.com/jp/ja/men/bottoms",
-          "https://www.uniqlo.com/jp/ja/men/outerwear"
-        ]
+        "name": "Zara",
+        "urls": []
       },
       {
-        "name": "ZARA",
-        "urls": [
-          "https://www.zara.com/jp/ja/man-l1.html"
-        ]
+        "name": "Uniqlo",
+        "urls": []
+      },
+      {
+        "name": "Hugo Boss",
+        "urls": []
+      },
+      {
+        "name": "Banana Republic",
+        "urls": []
+      },
+      {
+        "name": "Levi's",
+        "urls": []
       }
     ],
     "material_restrictions": []
   },
 
   "trend_queries": [
-    "ユニクロ 名品 2026",
-    "ZARA おすすめ メンズ 春"
+    "Uniqlo menswear essentials 2026 Japan",
+    "minimal smart casual men Japan 2026",
+    "autumn personal color men outfits"
   ],
 
   "pinterest_board_urls": [],
 
   "diagnosis_history": {
-    "skeleton_diagnosed_at": null,
-    "color_diagnosed_at": null,
-    "taste_diagnosed_at": null,
-    "last_updated": null
+    "skeleton_diagnosed_at": "2026-05-11",
+    "color_diagnosed_at": "2026-05-11",
+    "taste_diagnosed_at": "2026-05-11",
+    "last_updated": "2026-05-11"
   },
 
   "calibration": {
